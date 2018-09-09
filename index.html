@@ -90,11 +90,14 @@
             </div>
             <div class="row">
               <div class="col s12 center">
-                <button class="btn waves-effect waves-light" type="submit" name="action">Agregar
+                <button class="btn waves-effect waves-light grey darken-1" onclick="agregar();">Agregar
                   <i class="material-icons right">send</i>
                 </button>
               </div>
             </div>
+            <div class="fixed-action-btn">
+              <a onclick="Desplegar();" id="contador" class="btn-floating btn-large pulse grey darken-1">0</a>
+            </div>  
           </div>
         </main>
         <footer class="page-footer grey darken-4">
@@ -112,11 +115,53 @@
 
         <script type="text/javascript" src="lib/js/materialize.min.js"></script>
         <script>
+          //el jquery solo se utilizó para activar los elementos de Materialize
             jQuery(document).ready(function(){
                 $(".button-collapse").sideNav();
                 $('.slider').slider();
 
+                var names = [];
+                sessionStorage.contador = JSON.stringify(names);
             });
+
+            function agregar(){
+              var nombre = document.getElementById('first_name').value;
+              var apellido = document.getElementById('last_name').value;
+              var password = document.getElementById('password').value;
+              var correo = document.getElementById('email').value;
+              
+              if(nombre == ""){
+                alert("Nombre no valido");
+                return;
+              }
+              if(apellido == ""){
+                alert("Apellido no valido");
+                return;
+              }
+              if(password == ""){
+                alert("Contraseña no valido");
+                return;
+              }
+              if(correo == ""){
+                alert("Correo no valido");
+                return;
+              }
+              
+              var storedNames = JSON.parse(sessionStorage.contador);
+              storedNames.push(nombre);
+              sessionStorage.contador = JSON.stringify(storedNames);
+              
+              document.getElementById('contador').innerHTML = storedNames.length;
+              alert("Nombre agregado con éxito");
+            }
+
+            function Desplegar(){
+              var Nombres = JSON.parse(sessionStorage.contador);
+              
+              Nombres.forEach(function (nombre, index) {
+                alert(index + ": " + nombre);
+              });
+            }
         </script>
   </body>
 </html>
